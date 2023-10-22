@@ -1,0 +1,55 @@
+#signModal{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.4);
+    display: grid;
+    place-items: center;
+    .container{
+        width: 25rem;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 1rem 10px 10px rgba(0,0,0,0.4);
+        >.gap{
+            padding: 0;
+            >.title{
+                .sign__list{
+                    display: flex;
+                    align-items: center;
+                    .sign__item{
+                        width: 100%;
+                        height: 2rem;
+                        &:first-child{
+                            >.sign__btn{
+                                border-radius: 10px 0 0 0;
+                            }
+                        }
+                        &:last-child{
+                            >.sign__btn{
+                                border-radius: 0 10px 0 0;
+                            }
+                        }
+                        .sign__btn{
+                            width: 100%;
+                            height: 100%;
+                            border: none;
+                            outline: none;
+                            cursor: pointer;
+                            transition: all 0.3s ease-in-out;
+                            &.active{
+                                // gradient
+                                background: linear-gradient(45deg, #f6f6f6, #fff);
+                            }
+                        }
+                    }
+                }
+            }
+            >.content{
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}

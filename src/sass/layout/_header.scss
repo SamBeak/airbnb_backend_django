@@ -1,0 +1,48 @@
+#header{
+    .container{
+        .gap{
+            padding: 1rem;
+            .content{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .box__left{
+                    .nav__icon{
+                        >hr{
+                            width: 2rem;
+                            &:not(:last-child){
+                                margin-bottom: 0.3rem;
+                            }
+                        }
+                    }
+                }
+                .box__right{
+                    .btn__list{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        .btn__item{
+                            >button{
+                                padding: 0.5rem;
+                                border-radius: 10px;
+                                outline: none;
+                                outline-offset: -1px;
+                                color: #000;
+                                border: 1px solid #f6f6f6;
+                                box-shadow: 0 0 5px rgba(0,0,0,0.4);
+                                transition: all 0.3s ease-in-out;
+                                cursor: pointer;
+                                &:hover{
+                                    background: linear-gradient(45deg, #f6f6f6, #fff);
+                                }
+                            }
+                            &:not(:last-child){
+                                margin-right: 1rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

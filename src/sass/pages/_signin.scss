@@ -1,0 +1,110 @@
+#signin{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background-color: #f7f7f8;
+    .container{
+        width: 400px;
+        padding: 5rem 2rem 3rem;
+        background-color: #fff;
+        border-radius: 0 2rem 0 2rem;
+        box-shadow: 0 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.5);
+        .title{
+            text-align: center;
+            >h2{
+                font-size: 2rem;
+                font-weight: 600;
+                margin: 0 0 2rem;
+            }
+        }
+        .contents{
+            #signinForm{
+                width: 100%;
+                margin: 0;
+                display: grid;
+                gap: 3rem;
+                .signin__list{
+                    display: grid;
+                    gap: 3rem;
+                    .signin__item{
+                        &:first-child{
+                            position: relative;
+                        }
+                        &:nth-child(2){
+                            position: relative;
+                        }
+                        label{
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            color: #aaa7bc;
+                            transform: translate(1rem, 1.2rem);
+                            transform-origin: left;
+                            transition: all .3s ease-in-out;
+                            &.active{
+                                transform: translate(0, -2rem) scale(.8);
+                                color: #34301f;
+                            }
+                        }
+                        >input{
+                            border: 0;
+                            outline: none;
+                            width: 100%;
+                            height: 3.5rem;
+                            padding: 0 3.5rem 0 1rem;
+                            border-radius: 5px;
+                            background-color: #f4f5f7;
+                            color: #5a4f79;
+                            font-size: 1.2rem;
+                        }
+                        .toggle__btn{
+                            position: absolute;
+                            top: 50%;
+                            right: 1rem;
+                            translate: 0 -50%;
+                            width: 2rem;
+                            height: 2rem;
+                            border: none;
+                            background: url(../../../public/images/eye-open.svg) no-repeat center center / cover;
+                            &.active{
+                                background: url(../../../public/images/eye-close.svg) no-repeat center center / cover;
+                            }
+                        }
+                    }
+                }
+                .signin__btns{
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 1rem;
+                    .signin__btn{
+                        width: 100%;
+                        height: 3rem;
+                        border: 0;
+                        font-weight: 600;
+                        background-color: #f1f2f3;
+                        &:hover{
+                            background-color: #aaa7bc;
+                        }
+                    }
+                }
+                .pw-find__box{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    .pw-find__btn{
+                        width: 30%;
+                        border: none;
+                        background-color: #fff;
+                        transition: all 0.3s ease-in-out;
+                        &:hover{
+                            transform: scale(1.1);
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
