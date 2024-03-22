@@ -140,3 +140,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.User"
+# 개발 단계에서만 권장하는 미디어 업로드 설정
+MEDIA_ROOT = "uploads" # 업로드를 저장할 폴더를 지정, 파일이 실제로 있는 위치
+
+MEDIA_URL = "user-uploads/" # 이 url에서 업로드된 파일에 접근할 수 있음. 반드시 /로 끝나야 함. 파일을 노출하는 방법
+
+PAGE_SIZE = 3 

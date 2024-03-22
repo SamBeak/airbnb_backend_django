@@ -120,3 +120,7 @@ class RoomDetail(APIView):
         room.delete()
         return Response(status = HTTP_204_NO_CONTENT)
     
+class RoomPhotos(APIView):
+    
+    def post(self, request, pk):
+        pass
