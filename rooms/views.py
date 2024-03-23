@@ -6,6 +6,7 @@ from django.db import transaction
 from .models import Room, Amenity
 from categories.models import Category
 from . import serializers
+from medias.serializers import PhotoSerializer
 
 class Rooms(APIView):
     
@@ -122,5 +123,27 @@ class RoomDetail(APIView):
     
 class RoomPhotos(APIView):
     
+    def get_object(self, pk):
+        try:
+            return Room.objects.get(pk = pk)
+        except Room.DoesNotExist:
+            raise NotFound("Room not Found.")
+    
     def post(self, request, pk):
-        pass
+        room = self.get_object(pk)
+        if not request.user.is_authenticated:
+            raise NotAuthenticated("You are not authenticated.")
+        if room.owner != request.user:
+            raise PermissionDenied("You are not owner.")
+        serializer = PhotoSerializer(data=request.data)
+        if serializer.is_valid():
+            photo = serializer.save(
+                room = room,
+            )
+            serializer = PhotoSerializer(photo)
+            return Response( serializer.data )
+        else:
+            return Response(
+                serializer.errors,
+                status = HTTP_400_BAD_REQUEST,
+            )

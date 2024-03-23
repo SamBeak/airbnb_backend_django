@@ -43,6 +43,7 @@ CUSTOM_APPS = [
     "experiences.apps.ExperiencesConfig",
     "medias.apps.MediasConfig",
     "categories.apps.CategoriesConfig",
+    "bookings.apps.BookingsConfig",
 ]
 
 SYSTEM_APPS = [
