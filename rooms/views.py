@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, NotAuthenticated, PermissionDenied, ParseError
 from rest_framework.status import HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
+from rest_framework.permissions import IsAuthenticated, IsAuthentiacatedOrReadOnly
 from django.db import transaction
 from .models import Room, Amenity
 from categories.models import Category
@@ -9,6 +10,8 @@ from . import serializers
 from medias.serializers import PhotoSerializer
 
 class Rooms(APIView):
+    
+    permission_classes = [IsAuthentiacatedOrReadOnly]
     
     def get(self, request):
         all_rooms = Room.objects.all()
@@ -59,6 +62,8 @@ class Rooms(APIView):
             
 class RoomDetail(APIView):
     
+    permission_classes = [IsAuthentiacatedOrReadOnly]
+    
     def get_room(self, pk):
         try:
             room = Room.objects.get(pk = pk)
@@ -78,8 +83,6 @@ class RoomDetail(APIView):
         room = self.get_room(pk)
         if room.owner != request.user:
             raise PermissionDenied("You are not owner.")
-        if not request.user.is_authenticated:
-            raise NotAuthenticated("You are not authenticated.")
         serializer = serializers.RoomDetailSerializer(
             room,
             data = request.data,
@@ -131,8 +134,6 @@ class RoomPhotos(APIView):
     
     def post(self, request, pk):
         room = self.get_object(pk)
-        if not request.user.is_authenticated:
-            raise NotAuthenticated("You are not authenticated.")
         if room.owner != request.user:
             raise PermissionDenied("You are not owner.")
         serializer = PhotoSerializer(data=request.data)
