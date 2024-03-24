@@ -8,7 +8,6 @@ from .models import Photo
 class PhotoDetail(APIView):
     
     permission_classes = [IsAuthenticated] # 인증 여부를 확인할 수 있는 property 설정, is_authenticated를 확인하지 않아도 된다.
-    
     def get_object(self, pk):
         try:
             return Photo.objects.get(pk = pk)
@@ -24,4 +23,4 @@ class PhotoDetail(APIView):
             if photo.experience.host != request.user:
                 raise PermissionDenied("You are not owner.")
         photo.delete()
-        return Response(status = HTTP_204_NO_CONTENT) # 8분13초
+        return Response(status = HTTP_204_NO_CONTENT)
