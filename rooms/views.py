@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, NotAuthenticated, PermissionDenied, ParseError
 from rest_framework.status import HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
-from rest_framework.permissions import IsAuthenticated, IsAuthentiacatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from django.db import transaction
 from .models import Room, Amenity
 from categories.models import Category
@@ -13,7 +13,7 @@ from django.conf import settings
 
 class Rooms(APIView):
     
-    permission_classes = [IsAuthentiacatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     
     def get(self, request):
         all_rooms = Room.objects.all()
@@ -64,7 +64,7 @@ class Rooms(APIView):
             
 class RoomDetail(APIView):
     
-    permission_classes = [IsAuthentiacatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     
     def get_room(self, pk):
         try:
@@ -128,7 +128,7 @@ class RoomDetail(APIView):
     
 class RoomReviews(APIView):
     
-    permission_classes = [IsAuthentiacatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     
     def get_object(self, pk):
         try:
