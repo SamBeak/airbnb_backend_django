@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Room, Amenity
 from users.serializers import TinyUserSerializer
 from categories.serializers import CategorySerializer
+from medias.serializers import PhotoSerializer
 
 class AmenitySerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,6 +26,10 @@ class RoomDetailSerializer(serializers.ModelSerializer):
     )
     rating = serializers.SerializerMethodField()
     is_owner = serializers.SerializerMethodField()
+    photos = PhotoSerializer(
+        many = True,
+        read_only = True,
+    )
     class Meta:
         model = Room
         fields = "__all__"
@@ -43,6 +48,10 @@ class RoomListSerializer(serializers.ModelSerializer):
     
     rating = serializers.SerializerMethodField() # SerializerMethodField는 어떤 메서드를 사용할 것인지 지정하는 필드
     is_owner = serializers.SerializerMethodField()
+    photos = PhotoSerializer(
+        many = True,
+        read_only = True,
+    )
     
     class Meta:
         model = Room
@@ -54,6 +63,7 @@ class RoomListSerializer(serializers.ModelSerializer):
             "price",
             "rating",
             "is_owner",
+            "photos",
         )
     
     def get_rating(self, room):

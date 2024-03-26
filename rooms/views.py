@@ -8,6 +8,8 @@ from .models import Room, Amenity
 from categories.models import Category
 from . import serializers
 from medias.serializers import PhotoSerializer
+from reviews.serializers import ReviewSerializer
+from django.conf import settings
 
 class Rooms(APIView):
     
@@ -123,6 +125,42 @@ class RoomDetail(APIView):
             raise PermissionDenied("You are not owner.")
         room.delete()
         return Response(status = HTTP_204_NO_CONTENT)
+    
+class RoomReviews(APIView):
+    
+    permission_classes = [IsAuthentiacatedOrReadOnly]
+    
+    def get_object(self, pk):
+        try:
+            return Room.objects.get(pk = pk)
+        except Room.DoesNotExist:
+            raise NotFound("Room not Found.")
+        
+    def get(self, request, pk):
+        try:
+            page = request.query_params.get("page", 1) # query_params의 page를 가져오고 없으면 1 할당
+            page = int(page) # int형 변환
+        except ValueError: # int형 변환 오류
+            page = 1 # 강제 1 할당
+        page_size = settings.PAGE_SIZE
+        start = (page - 1) * page_size # 0부터 시작
+        end = start + page_size
+        room = self.get_object(pk)
+        serializer = ReviewSerializer(
+            room.reviews.all()[start:end], # 해당 room의 모든 review를 가져와서 page에 맞게 자르기
+            many = True,
+        )
+        return Response( serializer.data )
+    
+    def post(self, request, pk):
+        serializer = ReviewSerializer(data = request.data)
+        if serializer.is_valid():
+            review = serializer.save(
+                user = request.user,
+                room = self.get_object(pk),
+            )
+            serializer = ReviewSerializer(review)
+            return Response( serializer.data )
     
 class RoomPhotos(APIView):
     
