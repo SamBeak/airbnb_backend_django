@@ -1,15 +1,18 @@
+from django.db import transaction
+from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, NotAuthenticated, PermissionDenied, ParseError
 from rest_framework.status import HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from django.db import transaction
 from .models import Room, Amenity
 from categories.models import Category
 from . import serializers
 from medias.serializers import PhotoSerializer
 from reviews.serializers import ReviewSerializer
 from django.conf import settings
+from bookings.models import Booking
+from bookings.serializers import PublicBookingSerializer
 
 class Rooms(APIView):
     
@@ -186,3 +189,28 @@ class RoomPhotos(APIView):
                 serializer.errors,
                 status = HTTP_400_BAD_REQUEST,
             )
+            
+class RoomBookings(APIView):
+    
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    
+    def get_object(self, pk):
+        try:
+            return Room.objects.get(pk = pk)
+        except Room.DoesNotExist:
+            raise NotFound("Room not Found.")
+    
+    def get(self, request, pk):
+        room = self.get_object(pk) # DB에 접근하는 방식이기 때문에, 없으면 여부를 알려준다.
+        now = timezone.localtime(timezone.now()).date() # 로컬 현재 날짜의 date만 가져옴
+        # bookings = Booking.objects.filter(room__pk = pk) # room에 예약이 없으면 빈 query set이 반환, room이 없어도 빈 리스트가 반환 -> 즉, 없는 결과에 대한 여부를 알려주지 않음
+        bookings = Booking.objects.filter(
+            room = room, 
+            kind = Booking.BookingKindChoices.ROOM,
+            check_in__gt = now, # gt: greater than, gte: greater than or equal
+        )
+        serializer = PublicBookingSerializer(
+            bookings, 
+            many = True,
+        )
+        return Response( serializer.data )
