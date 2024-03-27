@@ -8,4 +8,5 @@ urlpatterns = [
     path('api/v1/rooms/', include('rooms.urls')),
     path('api/v1/medias/', include('medias.urls')),
     path('api/v1/wishlists/', include('wishlists.urls')),
+    path('api/v1/users/', include('users.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # 개발 단계에서 미디어 파일을 제공하기 위한 설정
