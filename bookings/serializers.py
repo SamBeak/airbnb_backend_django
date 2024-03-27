@@ -32,7 +32,15 @@ class CreateRoomBookingSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("Check-out date must be later than check-in date.")
             return value # return value를 하면 성공적으로 validation을 통과한 것으로 간주
         
-        
+        def validate(self, data): # 모든 data를 validation하는 방법, data는 사용자가 입력한 값
+            if data["check_in"] <= data["check_out"]:
+                raise serializers.ValidationError("Check-out date must be later than check-in date.")
+            if Booking.objects.filter(
+                check_in__lte = data["check_out"], # 이미 예약한 check_in 날짜가 사용자가 입력한 check_out 날짜보다 작거나 같은 경우
+                check_out__gte = data["check_in"], # 이미 예약한 check_out 날짜가 사용자가 입력한 check_in 날짜보다 크거나 같은 경우
+            ).exists(): # 이미 예약한 방이 있는지 확인
+                raise serializers.ValidationError("The room is already booked for the selected dates.")
+            return data # return data를 하면 성공적으로 validation을 통과한 것으로 간주
         
 
 class PublicBookingSerializer(serializers.ModelSerializer):
