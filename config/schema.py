@@ -6,7 +6,10 @@ class Query(rooms_schema.Query): # Query class를 rooms_schema.Query로 상속
     pass
 
 @strawberry.type
-class Mutation:
+class Mutation(rooms_schema.Mutation):
     pass
 
-schema = strawberry.Schema(query=Query, mutation=Mutation)
+schema = strawberry.Schema(
+    query=Query, 
+    mutation=Mutation,
+)
