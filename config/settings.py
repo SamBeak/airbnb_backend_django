@@ -148,3 +148,10 @@ MEDIA_ROOT = "uploads" # 업로드를 저장할 폴더를 지정, 파일이 실�
 MEDIA_URL = "user-uploads/" # 이 url에서 업로드된 파일에 접근할 수 있음. 반드시 /로 끝나야 함. 파일을 노출하는 방법
 
 PAGE_SIZE = 3 
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [ # 유저를 찾는 방법들이 들어있는 list
+        "rest_framework.authentication.SessionAuthentication",
+        "config.authentication.TrustMeBroAuthentication",
+    ]
+}
