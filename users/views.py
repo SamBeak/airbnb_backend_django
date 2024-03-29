@@ -1,4 +1,6 @@
+import jwt # jwt 토큰 생성을 위한 라이브러리
 from django.contrib.auth import authenticate, login, logout # authenticate는 username과 password를 돌려주는 함수로 정보가 맞으면 user를 리턴, login은 user를 로그인하는 함수
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, ParseError, PermissionDenied
@@ -104,3 +106,29 @@ class LogOut(APIView):
     def post(self, request):
         logout(request)
         return Response({"OK" : "bye"})
+    
+    
+class JWTLogIn(APIView):
+    
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        
+        if not username or not password:
+            raise ParseError("Username and Password are required.")
+        
+        user = authenticate(
+            request,
+            username = username,
+            password = password,
+        )
+        # user가 존재하면, jwt token에 서명하여 리턴
+        if user:
+            token = jwt.encode(
+                {"pk": user.pk}, 
+                settings.SECRET_KEY, 
+                algorithm="HS256"
+            ) # encode는 jwt token을 생성하는 함수, 토큰 안에 정보를 넣어야한다. 민감한 정보는 넣으면 안된다.
+            return Response({"token": token})
+        else:
+            return Response(status = status.HTTP_401_UNAUTHORIZED)
