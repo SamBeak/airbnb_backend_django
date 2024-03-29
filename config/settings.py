@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 THIRD_PARTY_APPS = [
     "rest_framework",
+    "rest_framework.authtoken",
     "strawberry.django",
 ]
 
@@ -153,5 +154,6 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [ # 유저를 찾는 방법들이 들어있는 list
         "rest_framework.authentication.SessionAuthentication",
         "config.authentication.TrustMeBroAuthentication",
+        "rest_framework.authentication.TokenAuthentication", # 토큰을 사용한 인증 방법
     ]
 }
