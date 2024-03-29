@@ -124,9 +124,9 @@ class JWTLogIn(APIView):
         )
         # user가 존재하면, jwt token에 서명하여 리턴
         if user:
-            token = jwt.encode(
-                {"pk": user.pk}, 
-                settings.SECRET_KEY, 
+            token = jwt.encode( # 토큰 암호화
+                {"pk": user.pk},
+                settings.SECRET_KEY,
                 algorithm="HS256"
             ) # encode는 jwt token을 생성하는 함수, 토큰 안에 정보를 넣어야한다. 민감한 정보는 넣으면 안된다.
             return Response({"token": token})
