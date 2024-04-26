@@ -38,7 +38,7 @@ class WishlistDetail(APIView):
     
     def get_object(self, pk, user): # wishlist는 프라이빗이기 때문에 유저 정보도 필요하다.
         try:
-            wishlist = Wishlist.obejects.get(pk = pk, user = user)
+            wishlist = Wishlist.objects.get(pk = pk, user = user)
             return wishlist
         except Wishlist.DoesNotExist:
             raise NotFound("Wishlist not found.")
@@ -76,7 +76,7 @@ class WishlistToggle(APIView):
     
     def get_list(self, pk, user): # wishlist는 프라이빗이기 때문에 유저 정보도 필요하다.
         try:
-            wishlist = Wishlist.obejects.get(pk = pk, user = user)
+            wishlist = Wishlist.objects.get(pk = pk, user = user)
             return wishlist
         except Wishlist.DoesNotExist:
             raise NotFound("Wishlist not found.")
